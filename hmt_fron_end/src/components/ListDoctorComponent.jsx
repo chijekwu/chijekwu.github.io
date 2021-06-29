@@ -9,37 +9,25 @@ class ListDoctorComponent extends Component {
         this.state = {
                 doctors: []
         }
-       /*  this.addEmployee = this.addEmployee.bind(this);
-        this.editEmployee = this.editEmployee.bind(this);
-        this.del eteEmployee = this.deleteEmployee.bind(this);*/
+      this.addDoctor = this.addDoctor.bind(this);
     }
-
-    /* deleteEmployee(id){
-        EmployeeService.deleteEmployee(id).then( res => {
-            this.setState({employees: this.state.employees.filter(employee => employee.id !== id)});
-        });
-    }
-    viewEmployee(id){
-        this.props.history.push(`/view-employee/${id}`);
-    }
-    editEmployee(id){
-        this.props.history.push(`/add-employee/${id}`);
-    } */
 
     componentDidMount(){
         DoctorService.getDoctors().then((res) => {
             this.setState({ doctors: res.data});
         });
      }
-/*
-    addEmployee(){
-        this.props.history.push('/add-employee/_add');
-    } */
 
+     addDoctor(){
+         this.props.history.push('/add-doctor');
+     }
     render() {
         return (
             <div>
                  <h2 className="text-center">Doctors Avaliable</h2>
+                 <div className = "row">
+                     <button className = "btn btn-primary" onClick={this.addDoctor}>Add Doctor</button>
+                 </div>
                  <div className = "row">
                         <table className = "table table-striped table-bordered">
 
