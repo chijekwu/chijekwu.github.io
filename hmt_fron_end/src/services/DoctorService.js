@@ -10,9 +10,20 @@ class DoctorService {
     createDoctor(doctor){
         return axios.post(DOCTOR_API_BASE_URL, doctor);
     }
+    getDoctorById(docId){
+        return axios.get(DOCTOR_API_BASE_URL + '/' + docId);
+    }
 
-    updateDoctor(doctor){
-        return axios.put(DOCTOR_API_BASE_URL, doctor);
+    updateDoctor(docId, doctor){
+        return axios.put(DOCTOR_API_BASE_URL + "/" + docId, doctor);
+    }
+
+    deleteDoctor(docId){
+        return axios.delete(DOCTOR_API_BASE_URL + "/" + docId);
+    }
+
+    getDoctDetails(docId){
+        return axios.get(DOCTOR_API_BASE_URL + '/' + docId);
     }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import DoctorService from '../services/DoctorService';
 
-class CreateDoctorComponent extends Component {
+export class UpdateDoctorComponent extends Component {
     constructor(props) {
         super(props);
 
@@ -9,9 +9,9 @@ class CreateDoctorComponent extends Component {
             id: this.props.match.params.id,
             name: '',
             practice: '',
-            numberOfPatients:null,
+            numberOfPatients:0,
             email: '',
-            tele: null
+            tele: 0
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -19,45 +19,34 @@ class CreateDoctorComponent extends Component {
         this.changeNumberOfPatientsHandler = this.changeNumberOfPatientsHandler.bind(this);
         this.changePracticeHandler = this.changePracticeHandler.bind(this);
         this.changeTeleHandler = this.changeTeleHandler.bind(this);
-        this.saveDcotor = this.saveDcotor.bind(this);
+        this.updateDcotor = this.updateDcotor.bind(this);
     }
 
+  
     componentDidMount(){
-
-        if(this.state.id === -1){
-            return;
-        }
-        else{
-            DoctorService.getDoctorById(this.state.id).then((res) => { 
-                let doctor = res.data;
-                this.setState({
-                    name: doctor.name,
-                    practice: doctor.practice,
-                    numberOfPatients: doctor.numberOfPatients,
-                    email: doctor.email,
-                    tele: doctor.tele
-                });
+        DoctorService.getDoctorById(this.state.id).then((res) => { 
+            let doctor = res.data;
+            this.setState({
+                name: doctor.name,
+                practice: doctor.practice,
+                numberOfPatients: doctor.numberOfPatients,
+                email: doctor.email,
+                tele: doctor.tele
             });
-        }
+        });
 
     }
-    saveDcotor = (e) =>{
+
+    updateDoctor = (e) =>{
         e.preventDefault();
         let doctor = {name: this.state.name, practice: this.state.practice, numberOfPatients: this.state.numberOfPatients, email: this.state.email, tele: this.state.tele};
-        console.log('doctor => ' + JSON.stringify(doctor));
-
-        if(this.state.id === -1){
-            DoctorService.createDoctor(doctor).then(res => {
-                this.props.history.push('/doctors');
-            });
-        }
-        else{
-            DoctorService.updateDoctor(doctor, this.state.id).then(res => {
-                this.props.history.push('/doctors');
-            })
-        }
-        
+        console.log(doctor);  
+        DoctorService.updateDoctor(doctor,this.state.id).then(result => {
+            this.props.history.push('/doctor');
+        })
     }
+    
+   
     changeNameHandler = (e) => {
         this.setState({name: e.target.value});
     }
@@ -81,24 +70,13 @@ class CreateDoctorComponent extends Component {
     cancel(){
         this.props.history.push("/doctors");
     }
-
-    getTitles(){
-        if(this.state.id === -1){
-            return <h2 className="text-center">Add New Doctor</h2>
-        }
-        else{
-            return <h2 className="text-center">Update Doctor</h2>
-        }
-    }
     render() {
         return (
             <div>
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            {
-                                this.getTitles()
-                            }
+                            <h2 className="text-center">Edit Doctor</h2>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
@@ -107,7 +85,7 @@ class CreateDoctorComponent extends Component {
                                             value={this.state.name} onChange={this.changeNameHandler} />
                                     </div>
                                     <div className="form-group">
-                                        <label>Practice: </label>
+                                        <label>Speciality: </label>
                                         <input placeholder="Practice" name="practice" className="form-control"
                                             value={this.state.practice} onChange={this.changePracticeHandler} />
                                     </div>
@@ -126,7 +104,7 @@ class CreateDoctorComponent extends Component {
                                         <input placeholder="telephone ext" name="tele" className="form-control"
                                             value={this.state.tele} onChange={this.changeTeleHandler} />
                                     </div>
-                                    <button className="btn btn-success" onClick={this.saveDcotor}>Save</button>
+                                    <button className="btn btn-success" onClick={this.updateDoctor}>Save</button>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)}>Cancel</button>
                                 </form>
                             </div>
@@ -140,4 +118,4 @@ class CreateDoctorComponent extends Component {
     }
 }
 
-export default CreateDoctorComponent; 
+export default UpdateDoctorComponent

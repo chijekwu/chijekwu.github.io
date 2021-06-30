@@ -10,6 +10,8 @@ class ListDoctorComponent extends Component {
                 doctors: []
         }
       this.addDoctor = this.addDoctor.bind(this);
+      this.editDoctor = this.editDoctor.bind(this);
+      this.deleteDoctor = this.deleteDoctor.bind(this);
     }
 
     componentDidMount(){
@@ -17,10 +19,22 @@ class ListDoctorComponent extends Component {
             this.setState({ doctors: res.data});
         });
      }
+     editDoctor(id) {
+         this.props.history.push(`/add-doctor/${id}`);
+     }
 
      addDoctor(){
-         this.props.history.push('/add-doctor');
+         this.props.history.push('/add-doctor/-1');
      }
+
+     deleteDoctor(id) {
+            DoctorService.deleteDoctor(id).then((response) => {
+                this.setState({doctors : this.state.doctors.filter(d => d.id !== id)});
+            });
+
+
+     }
+     
     render() {
         return (
             <div>
@@ -35,10 +49,11 @@ class ListDoctorComponent extends Component {
                                 <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Practice</th>
+                                <th>Speciality</th>
                                 <th>Number of Patients</th>
                                 <th>Email Address</th>
                                 <th>Telephone ext</th>
+                                <th>Function</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +67,10 @@ class ListDoctorComponent extends Component {
                                             <td>{doctor.numberOfPatients}</td>
                                             <td>{doctor.email}</td>
                                             <td>{doctor.tele}</td>
-                                            
+                                            <td>
+                                                <button onClick={ () => this.editDoctor(doctor.d_id)} className = "btn btn-info">Edit</button>
+                                                <button onClick={ () => this.deleteDoctor(doctor.d_id)} className = "btn btn-danger">Delete</button>
+                                            </td>
                                         </tr>
                                     )
                                 }

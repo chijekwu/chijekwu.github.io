@@ -5,6 +5,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ListDoctorComponent from './components/ListDoctorComponent.jsx';
 import CreateDoctorComponent from './components/CreateDoctorComponent.jsx';
+import UpdateDoctorComponent from './components/UpdateDoctorComponent';
+import ViewDoctorComponent from './components/ViewDocDetailComponent'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
                 <Route path="/" exact component={ListDoctorComponent}></Route>
                 <Route path="/doctors" component={ListDoctorComponent}></Route>
                 <Route path="/add-doctor" component={CreateDoctorComponent}></Route>
+                <Route path="/update-doctor/:id" component={UpdateDoctorComponent}></Route>
+                <Route path="/view-doctor" component={ViewDoctorComponent}></Route>
               </Switch>
             </div>
           <Footer />
